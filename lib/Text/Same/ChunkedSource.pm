@@ -1,6 +1,6 @@
 =head1 NAME
 
-Text::Same::Match
+Text::Same::ChunkedSource
 
 =head1 DESCRIPTION
 
@@ -26,7 +26,7 @@ use strict;
 use Carp;
 
 use vars qw($VERSION);
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 use Digest::MD5 qw(md5);
 

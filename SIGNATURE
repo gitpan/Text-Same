@@ -14,22 +14,22 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 f388ac5752a053be5fd9c1165e9e722fd8c7a513 Changes
-SHA1 ee188834fdd453659689f1c1801392465a5f586b MANIFEST
-SHA1 df64086559537efe50b7b31f2ecfd492f3517f89 META.yml
-SHA1 774c32cf1df0a2cab6a9bca163147f907332c432 Makefile.PL
+SHA1 820e82d97adaac6fd1210a72e902ddcbd1e4fc35 Changes
+SHA1 95c924df5e51d4f741c977daaba900dea62aa738 MANIFEST
+SHA1 ab3ac10b03b708c76e8bd4720fe8ff4ae5239f14 META.yml
+SHA1 895a497059f097a70b6a2e426601ae686cb2a352 Makefile.PL
 SHA1 c0581702d8a3686ab88f404d97a5ba87eb6890d4 README
-SHA1 968c19667164a5c62637a480aeb9adb1e8f60867 bin/psame
+SHA1 a5f4f580fb2035e5b5904619c6f2865e4bcfdb10 bin/psame
 SHA1 3400387f059787cc21fed41c1bfa81bc825688b3 etc/increment_mod_version.pl
-SHA1 3b060f365f947bcec595a6977c341c84e68a4503 lib/Text/Same.pm
-SHA1 3085aceaf126f25f951fe7b52adc8e4ff1fa15bc lib/Text/Same/Cache.pm
-SHA1 c8048b2987a77d21f5692b812145efd620e2abae lib/Text/Same/ChunkPair.pm
-SHA1 752bf24e8475fa0c99bc68b483eeee2f57643536 lib/Text/Same/ChunkedSource.pm
-SHA1 84843a064dbfb48bdbdb5a99ef1692a63600f69a lib/Text/Same/Match.pm
-SHA1 762dd8a32f4b4258d773d9f14ba26e305c4cdb43 lib/Text/Same/MatchMap.pm
-SHA1 100072df5902f6832b28b7dfce8f7478ab6de24f lib/Text/Same/Range.pm
-SHA1 770c5732e2c5bd8bf82ec34c9f86c2e952743abc lib/Text/Same/TextUI.pm
-SHA1 116f7ede746a1330d063a45831f2c6b680fb131d lib/Text/Same/Util.pm
+SHA1 a134695211accfa9bcb1e74ceb27d9fae648670e lib/Text/Same.pm
+SHA1 6936bf6779d503246566604193960ad0d05fffc1 lib/Text/Same/Cache.pm
+SHA1 5726111a8e4ca513e36169710ce69e17367cd055 lib/Text/Same/ChunkPair.pm
+SHA1 442a3aee4df60fd1cf91641caa23360bb0cb39e1 lib/Text/Same/ChunkedSource.pm
+SHA1 950d1e3dc381d885301a18f3cc15e5e4db1151c5 lib/Text/Same/Match.pm
+SHA1 1e41df4f977dc6082ed5c64387e9fad0edd0fdfc lib/Text/Same/MatchMap.pm
+SHA1 c0d23a8a6e2bc7003d72567804500f061c787837 lib/Text/Same/Range.pm
+SHA1 dbb6e2c35d998f6e6374de70427342add6334c04 lib/Text/Same/TextUI.pm
+SHA1 9128da62f697a728fde63b848d0e1d1f6d6b41a1 lib/Text/Same/Util.pm
 SHA1 7c030e81fdf98fc72896db0d56b1e1dd38404130 t/00-load.t
 SHA1 af89d74757f6f6210d9afa7a22a6ebdcf5bb6f2d t/chunked_source.t
 SHA1 4b88b23584eb7642e62863131276622679d4488a t/data/test1/file1
@@ -53,10 +53,12 @@ SHA1 259aa0fe249003a6a0cf6ed16da36c8a907aaeb7 t/data/test8/file2
 SHA1 fb8dbd287ca32909f509d14e5ea78906027b8569 t/data/test9/file1
 SHA1 fb8dbd287ca32909f509d14e5ea78906027b8569 t/data/test9/file2
 SHA1 0518032c2db553fc96c8326e5743fe2402c6ada2 t/match.t
+SHA1 6da39b48ce64b584e4c3274bff96fc76ff484820 t/pod-coverage.t
+SHA1 0190346d7072d458c8a10a45c19f86db641dcc48 t/pod.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.3 (GNU/Linux)
 
-iD8DBQFEe27QnmNgKRvzHEMRApVuAJ9PXwzOiQkL137+DTODPIpexWKYIACgpSda
-74uSJqUyHzKt3vgMDw4JBOk=
-=wVK7
+iD8DBQFEkGiYnmNgKRvzHEMRAi/vAKCX6vqkkZ1Xlh9qseVt5es1wZWxSwCePJcc
+EEf7fn/w+sEbR01B85sJAsY=
+=ZfG/
 -----END PGP SIGNATURE-----
