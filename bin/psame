@@ -7,7 +7,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 =head1 NAME
 
@@ -17,15 +17,19 @@ psame - finds similarities between files or versions of files
 
   psame [options] file1 file2
   psame [options] file
-  psame [options] [-r version] file
+  psame [options] -r version file
+  psame [options] -r version_a -r version_b file
 
 The first usage compares the two files.
-The second usage compare the given file with the latest version from
+The second usage compares the latest version from Subversion, CVS or RCS
+against the given file.
+The third usage will compare the given version from Subversion, CVS or
+RCS against the given file.
+The fourth usage will compare the two versions of the given file from
 Subversion, CVS or RCS.
-The third usage will compare against a given version from Subversion, CVS or
-RCS.
 
-By default, the output with be a side-by-side view of matching regions with a
+By default, blank lines, whitespace and case are ignored when comparing.
+The output will be a side-by-side view of matching regions with a
 few lines of context.
 
 =head1 MOTIVATION
@@ -35,11 +39,11 @@ pieces of text.  In particular to find lines in one piece of text
 (generally from a file) that match some lines in a second piece of
 text.
 
-=head1 USE CASES
+=head1 USES OF PSAME
 
 =head2 Code comparison
 
-The B<diff(1)> command is excellent for finding differences between files, but
+The L<diff(1)> command is excellent for finding differences between files, but
 sometimes similarity is more interesting.  A common case is when a chunk of
 code is moved to another part of the same file.  In that case comparing the
 old and new versions of the file with B<diff> will tell you that there has
@@ -52,61 +56,83 @@ cases where there have been many edits.
 
 =head2 Options
 
-=over 4
+=over 3
 
-=item B<-b>
+=item B<-b>, B<--dont-ignore-spaces>
 
-ignore changes in whitespace with a line
+don't ignore changes in whitespace with a line
 
-=item B<-i>
+=item B<-i>, B<--dont-ignore-case>
 
-ignore case when comparing lines
+don't ignore case when comparing lines
 
-=item B<-B>
+=item B<-B>, B<--dont-ignore-blank-lines>
 
-ignore blank lines
+don't ignore blank lines
 
-=item B<-s> <num>
+=item B<< -M <num> >>, B<< --minimum-line-length <num> >>
 
-ignore simple/short lines (ie. those with less than <num> chars)
+ignore simple/short lines (ie. those with less than <num> chars).  If the -b 
+flag is active, the line length is tested after removing whitespace.
+default: no lines are considered too simple
 
-=item B<-y>
+=item B<< -S <num> >>, B<< --minimum-score <num> >>
+
+only show matches with score higher than <num> (see the SCORE section
+below) - default 0
+
+=item B<-y>, B<--side-by-side>
 
 side-by-side match view (default)
 
-=item B<-V>
+=item B<-V>, B<--vertical>
 
 vertical match view
 
-=item B<-n>
+=item B<-n>, B<--show-only-non-matches>
 
 show non-matches instead of matches
 
-=item B<-N>
+=item B<-N>, B<--show-non-matches>
 
 show matches and non-matches
 
-=item B<-x> <wid>
+=item B<< -x <wid> >>, B<< --terminal-width <wid> >>
 
 set terminal width in columns (normally guessed)
 
-=item B<-r> <ver>
+=item B<< -r <ver> >>, B<< --revision <ver> >>,
+B<< -r <ver> -r <ver> >>
 
-compare with <version> from SVN, CVS or RCS
+compare with version(s) from SVN, CVS or RCS
 
-=item B<-S> <num>
+=item B<< -C <num> >>, B<< --context <num> >>
 
-only show matches with score higher than <num> (see the SCORE section below)
+number of lines of context - default 3
 
-=item B<-C> <num>
+=item B<< -m <mode> >>, B<< --mode <mode> >>
 
-number of lines of context
+use the <modeE<gt> to choose appropriate settings
 
-=item B<-a>
+=over 3
 
-apply (a)ll useful options - sets the options to ignore case, spaces, blank
-lines, 1 character lines and short matches.  Equivalent to the these options:
-B<-b> B<-i> B<-B> B<-s> 2 B<-N> B<-S> 3
+=item B<text>
+
+choose settings suitable for text/documentation: -M 10 -S 4
+
+=item B<code>
+
+choose setting for code: -i -M 5 -S 0
+
+=back
+
+=item B<-v>, B<--version>
+
+Display version number and exit
+
+=item B<-h>, B<-?>, B<--help>
+
+show a usage message
 
 =back
 
@@ -127,34 +153,38 @@ of text (with added line numbers):
  5.   bleedin' choir invisible!
  6.   THIS IS AN EX-PARROT!
 
-
 =head2 B<text_2>
 
- 1.  'E's kicked the bucket, 'e's
- 2.  shuffled off 'is mortal coil, run
- 3.  down the curtain and joined the
- 4.  bleedin' choir invisible!
+ 1.   'E's kicked the bucket, 'e's
+ 2.   shuffled off 'is mortal coil, run
+ 3.   down the curtain and joined the
+ 4.   bleedin' choir invisible!
  5.
- 6.  This is an ex-parrot!
+ 6.   This is an ex-parrot!
+
+=head2 Default settings
 
 Using the default settings, B<psame> will report this:
 
- match 2..5==1..4
+match 2..6==1..6
   The parrot sketch -
    'E's kicked the bucket, 'e's      =  'E's kicked the bucket, 'e's
-   shuffled off 'is mortal coil, run =  shuffled off 'is mortal coil, run
-   down the curtain and joined the   =  down the curtain and joined the
-   bleedin' choir invisible!         =  bleedin' choir invisible!
-   THIS IS AN EX-PARROT!
-                                        This is an ex-parrot!
+   shuffled off 'is mortal coil,     =  shuffled off 'is mortal coil,
+   run down the curtain and joined   =  run down the curtain and joined
+   the bleedin' choir invisible!     =  the bleedin' choir invisible!
+                                     >
+   THIS IS AN EX-PARROT!             =  This is an ex-parrot!
 
-which indicates that there are four lines from B<text_1> (ie. lines 2 to 5)
-that match four lines from text_2 (ie. 1 to 4).  Note that psame is, by
-default, case sensitive so line 6 of B<text_1> doesn't match line 6 of
-B<text_2> in this case.
+which indicates that there are five lines from B<text_1> (ie. lines 2
+to 6) that match six lines from text_2 (ie. 1 to 6).  By default
+B<psame> is case and white-space insensitive and blank lines are
+ignored when comparing files.  The "=" symbol indicates an match
+between two lines.  The ">" indicates that B<text_2> has an extra
+blank line that has been ignored during the comparison.
 
-Adding the B<-i> option will make B<psame> ignore case, hence find the last
-line of each file to be equal:
+=head2 Case sensitivity
+
+Adding the B<-B> parameter will produce this output:
 
  match 2..5==1..4
    The parrot sketch -
@@ -170,8 +200,22 @@ line of each file to be equal:
     bleedin' choir invisible!
     THIS IS AN EX-PARROT!             =  This is an ex-parrot!
 
-In this case B<psame> is reporting two distinct matches - one four lines long
-and the other one line long.
+In this case blank lines are significant for the comparison.  B<psame>
+reports two distinct matches - one four lines long and the other one
+line long.
+
+Adding the B<-i> option as well will make B<psame> respect case.  Here
+is the output:
+
+ match 2..5==1..4
+  The parrot sketch -
+   'E's kicked the bucket, 'e's      =  'E's kicked the bucket, 'e's
+   shuffled off 'is mortal coil, run =  shuffled off 'is mortal coil, run
+   down the curtain and joined the   =  down the curtain and joined the
+   bleedin' choir invisible!         =  bleedin' choir invisible!
+   THIS IS AN EX-PARROT!
+                                        This is an ex-parrot!
+
 
 =head1 NON-MATCHES
 
@@ -182,14 +226,10 @@ other options gives:
  non matches in text_1:
    1..1:
      The parrot sketch -
-   6..6:
-      THIS IS AN EX-PARROT!
- non matches in text_2:
-   5..6:
 
-      This is an ex-parrot!
+ie. line 1 in B<text_1> doesn't occur anywhere in B<text_2>
 
-In this case B<diff(1)> will tell us the same thing but in other situations we
+In this case L<diff(1)> will tell us the same thing but in other situations we
 only want to know about lines in file A that don't appear anywhere in file B.
 An example might be when modifying the order of sections in a manuscript - we
 would like to check that all sections are still present, even if in a
@@ -199,7 +239,7 @@ different place.
 
 The score of a match is currently the total number of lines this match covers
 in both files.  The B<-S> option for filtering by score is useful for
-filtering out small matches so that the larger changes can be seen.
+filtering out small matches so that the larger similarity can be seen.
 
 =head1 BUGS
 
@@ -224,122 +264,133 @@ Kim Rutherford <kmr+same@xenu.org.uk>
 use Text::Same;
 use Text::Same::TextUI qw( draw_match draw_non_match );
 
-use Getopt::Std;
+use Getopt::Long;
+use Pod::Usage;
 
-my %command_line_options = ();
-getopts('aviBbVynNC:s:x:S:r:', \%command_line_options);
+my $option_parser = new Getopt::Long::Parser;
+$option_parser->configure("gnu_getopt");
 
 # set defaults
-my %options = (side_by_side => 1);
+my %options = (
+               side_by_side => 1,
+               show_matches => 1,
+               ignore_case => 1,
+               ignore_blanks => 1,
+               ignore_space => 1,
+               min_score => 0,
+               ignore_simple => 0
+              );
 
-$options{show_matches} = 1;
+my $need_help = 0;
+my $need_version = 0;
+my $mode = "default";
 
-if (exists $command_line_options{a}) {
-  $options{ignore_case} = 1;
-  $options{ignore_blanks} = 1;
-  $options{ignore_space} = 1;
-  $options{ignore_simple} = 2;
-  $options{side_by_side} = 1;
-  $options{min_score} = 3;
-  $options{show_matches} = 1;
-  $options{show_non_matches} = 1;
-  $options{context} = 3;
-}
+my %opt_config = (
+                  'revision|r=s@' => \$options{revisions},
+                  'show-matches' => \$options{show_matches},
+                  'show-non-matches|N' => \$options{show_non_matches},
+                  'show-only-non-matches|n' => sub {
+                        $options{show_non_matches} = 1;
+                        $options{show_matches} = 0;
+                    },
+                  'dont-ignore-case|i' => sub {$options{ignore_case} = 0;},
+                  'dont-ignore-spaces|b' => sub {$options{ignore_space} = 0;},
+                  'dont-ignore-blank-lines|B' => sub {$options{ignore_blanks} = 0;},
+                  'terminal-width|x' => \$options{term_width},
+                  'minimum-score|S=i' => \$options{min_score},
+                  'context|C=i' => \$options{context},
+                  'minimum-line-length|M=i' => \$options{ignore_simple},
+                  'side-by-side|y' => \$options{side_by_side},
+                  'vertical|V' => sub {$options{side_by_side} = 0;},
+                  'mode|m=s' => \$mode,
+                  'version|v' => \$need_version,
+                  'help|h|?' => \$need_help,
+                 );
 
-if (exists $command_line_options{i}) {
-  $options{ignore_case} = 1;
-}
-if (exists $command_line_options{B}) {
-  $options{ignore_blanks} = 1;
-}
-if (exists $command_line_options{b}) {
-  $options{ignore_space} = 1;
-}
-if (exists $command_line_options{s}) {
-  $options{ignore_simple} = $command_line_options{s};
-}
-$options{side_by_side} = 0 if exists $command_line_options{V};
-$options{side_by_side} = 1 if exists $command_line_options{y};
-if (exists $command_line_options{x}) {
-  $options{term_width} = 1;
-}
-if (exists $command_line_options{S}) {
-  $options{min_score} = 1;
-}
-if (exists $command_line_options{r}) {
-  $options{revision} = 1;
-}
-if (exists $command_line_options{C}) {
-  $options{context} = 1;
+if (!$option_parser->getoptions(%opt_config)) {
+  usage(2);
 }
 
-if (exists $command_line_options{n}) {
-  $options{show_non_matches} = 1;
-  $options{show_matches} = 0;
+if ($need_help) {
+  usage(1);
 }
 
-if (exists $command_line_options{N}) {
-  $options{show_matches} = 1;
-  $options{show_non_matches} = 1;
+if ($need_version) {
+  print "psame version $VERSION\n";
+  exit(0);
 }
 
 sub usage
 {
-  die <<"USAGE";
- usage: $0 [options] file1 file2
-or
- usage: $0 [options] file
-or
- usage: $0 [options] [-r version] file
+  my $exit_val = shift;
+  my $message = shift;
+  if (defined $message) {
+    pod2usage(-verbose => 1, -exitval => $exit_val, -message => $message);
+  } else {
+    pod2usage(-verbose => 1, -exitval => $exit_val);
+  }
+}
 
-options:
-   -b           ignore changes in whitespace
-   -i           ignore case
-   -B           ignore blank lines
-   -s <num>     ignore simple/short lines (ie. less than <num> chars>
-   -y           side-by-side match view (default)
-   -V           vertical match view
-   -n           show non-matches instead of matches
-   -N           show both matches and non-matches
-   -x           terminal width in columns
-   -r <version> compare with <version> from SVN, CVS or RCS
-   -S <num>     only show matches with score higher than <num>
-   -C <num>     the number of line of context to show around each match
-   -a           apply (a)ll useful options - sets the following options:
-                -b -i -B -s 2 -N -S 3
-
-The first usage compares the two files.
-The second usage compare the given file with the latest version from
-Subversion, CVS or RCS.
-The third usage compares again a given version.
-
-See the manual page for more details.
-USAGE
+if ($mode eq 'text') {
+  $options{ignore_simple} = 10;
+  $options{min_score} = 4;
+} else {
+  if ($mode eq 'code') {
+    $options{ignore_case} = 0;
+    $options{ignore_simple} = 5;
+    $options{min_score} = 0;
+  } else {
+    if ($mode ne 'default') {
+      usage(2, "error: unknown mode: $mode");
+    }
+  }
 }
 
 if (@ARGV < 1 or @ARGV > 2) {
-  usage;
+  usage(2, "error: one or two arguments needed\n");
+}
+
+my $revision_count = 0;
+
+if (defined $options{revisions}) {
+  $revision_count = scalar(@{$options{revisions}});
+}
+
+if ($revision_count > 2) {
+  usage(2, "error: a maximum of two revisions can be given");
 }
 
 if (@ARGV == 1) {
-  my $revision = "";
+  my $file_name = $ARGV[0];
+  my @revisions = ();
 
-  if (defined $options{revision}) {
-    $revision = "-r $options{revision} ";
+  if (defined $options{revisions}) {
+    @revisions = @{$options{revisions}};
+  } else {
+    @revisions = "HEAD";
   }
 
-  if (-d ".svn") {
-    push @ARGV, "svn cat $revision$ARGV[0]|";
-  } else {
-    if (-d "CVS") {
-      push @ARGV, "cvs up $revision-p $ARGV[0]|";
+  # we'll push two new arguments
+  @ARGV = ();
+
+  for my $revision (@revisions) {
+    if (-d ".svn") {
+      push @ARGV, "svn cat -r $revision $file_name|";
     } else {
-      if (-e "$ARGV[0],v") {
-        push @ARGV, "co $revision-p $ARGV[0]|";
+      if (-d "CVS") {
+        push @ARGV, "cvs up -r $revision -p $file_name|";
       } else {
-        usage;
+        if (-e "$ARGV[0],v") {
+          push @ARGV, "co -r $revision -p $file_name|";
+        } else {
+          usage;
+        }
       }
     }
+  }
+
+  if (@ARGV == 1) {
+    push @ARGV, $file_name;
   }
 }
 

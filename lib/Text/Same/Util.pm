@@ -4,7 +4,7 @@ Text::Same::Util
 
 =head1 DESCRIPTION
 
-
+Utility methods for Text::Same
 
 =head1 METHODS
 
@@ -25,7 +25,7 @@ use Exporter;
 @ISA = qw( Exporter );
 @EXPORT = qw( hash is_ignorable );
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 use Digest::MD5 qw(md5);
 
