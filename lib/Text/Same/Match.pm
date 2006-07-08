@@ -27,7 +27,7 @@ use strict;
 use Carp;
 
 use vars qw($VERSION);
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 =head2 new
 
@@ -299,7 +299,7 @@ sub pairs
 sub score
 {
   my $self = shift;
-  return $self->{max1} - $self->{min1} + $self->{max2} - $self->{min2};
+  return $self->{max1} - $self->{min1} + $self->{max2} - $self->{min2} + 2;
 }
 
 
