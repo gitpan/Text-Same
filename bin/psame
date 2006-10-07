@@ -2,12 +2,16 @@
    eval 'exec /usr/bin/perl -S $0 ${1+"$@"}'
        if $running_under_some_shell;
 
+# If debugging is the process of removing bugs, then programming must be the
+# process of putting them in.
+#   - Edsger Dijkstra
+
 use strict;
 use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 
 =head1 NAME
 
@@ -182,7 +186,7 @@ ignored when comparing files.  The "=" symbol indicates an match
 between two lines.  The ">" indicates that B<text_2> has an extra
 blank line that has been ignored during the comparison.
 
-=head2 Case sensitivity
+=head2 Case sensitivity and ignoring blank lines
 
 Adding the B<-B> parameter will produce this output:
 
@@ -216,6 +220,7 @@ is the output:
    THIS IS AN EX-PARROT!
                                         This is an ex-parrot!
 
+Note that the "This is an ex-parrot!" line doesn't match now.
 
 =head1 NON-MATCHES
 
@@ -258,6 +263,8 @@ needs to be more readable.  Suggestions are very welcome.
 =head1 AUTHOR
 
 Kim Rutherford <kmr+same@xenu.org.uk>
+
+http://www.xenu.org.uk
 
 =cut
 
