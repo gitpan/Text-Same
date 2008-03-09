@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.50.
+signed via the Module::Signature module, version 0.55.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -15,22 +15,22 @@ not run its Makefile.PL or Build.PL.
 Hash: SHA1
 
 SHA1 b00b5c815341a4b01ceeada6dd1cd4d921bacfe7 Changes
-SHA1 32e0c90dc0e5b56fb486af502b1b8906ed5b5d41 MANIFEST
-SHA1 6d6f000fff639d1f181983446a5ab7d861d23699 META.yml
-SHA1 895a497059f097a70b6a2e426601ae686cb2a352 Makefile.PL
-SHA1 c0581702d8a3686ab88f404d97a5ba87eb6890d4 README
-SHA1 e0b6b14dfeacf3a2ece4eea2d0c13898e7dc7cfa bin/psame
+SHA1 d61dad310320e8dfffb61f26dedce054eab4ef27 MANIFEST
+SHA1 2ce9b469c300804c9bc59de1b54a406107a58d39 META.yml
+SHA1 6d6d2440199da64f9b6a4accbc381af000a7344e Makefile.PL
+SHA1 8a78360f909de733708c8fb9dfd4baa896b8b8d9 README
+SHA1 89ee67e40d70dbb1613b94d5fa54cb09c78c651c bin/psame
 SHA1 6ebd8c9c34b7dfa8b7745aff7595964c4f3d8e5d etc/increment_mod_version.pl
-SHA1 1804f7d308e0b30597f737eab36256ee2adec1b9 lib/Text/Same.pm
-SHA1 6f3728c4b0925bba7dcc9c7dbce53e71d6ba6fb3 lib/Text/Same/Cache.pm
-SHA1 f02ac49e7c38dbcb15247a83de2ff9da4db50a16 lib/Text/Same/ChunkPair.pm
-SHA1 d9b80af136c71409449e9065509d6ed26ce5bc41 lib/Text/Same/ChunkedSource.pm
-SHA1 fe52026fe8094b04e1ec1de4c10f1636298da733 lib/Text/Same/FileChunkedSource.pm
-SHA1 e38fa70c4a346f17a299dba4dbcfded6c12aa2ee lib/Text/Same/Match.pm
-SHA1 7d8a8d9d2fa8bde5404ee397b5c6da6b811e19cb lib/Text/Same/MatchMap.pm
-SHA1 9a1af989a2b7e9ad190a29036226c0fdf088a0ce lib/Text/Same/Range.pm
-SHA1 135e7255812316b7094bb07fbd1bc0796ca1b3c0 lib/Text/Same/TextUI.pm
-SHA1 d0e4498290a24935937552d5396b144fa3af4084 lib/Text/Same/Util.pm
+SHA1 3ee8846db0c7ab1e2543d70d6b36be48ddec9046 lib/Text/Same.pm
+SHA1 7fdda62d4b9f46896af77c04822fe8bbafa0c227 lib/Text/Same/Cache.pm
+SHA1 927e27ea7326b9143a5fc320cf6687833b4e91f5 lib/Text/Same/ChunkPair.pm
+SHA1 909325c984f0f3c479077228714c575c2ff09d50 lib/Text/Same/ChunkedSource.pm
+SHA1 2a7434cda78fbecae5ed7671a08faf3de7eefb4e lib/Text/Same/FileChunkedSource.pm
+SHA1 b4da357a970f76d2573ba6e5e102dcbeb08d87f0 lib/Text/Same/Match.pm
+SHA1 1f905c18d6b7afbec695d0c27f0cc92990aaca48 lib/Text/Same/MatchMap.pm
+SHA1 302ef9c228e3f9b0eb52b05b1f3c18370a7f285c lib/Text/Same/Range.pm
+SHA1 2a9f80c11d0ffce60533654458aec1b4d56393ae lib/Text/Same/TextUI.pm
+SHA1 cc08d1fbe3b73216df94c7f7dacab6fcb086c0ad lib/Text/Same/Util.pm
 SHA1 7c030e81fdf98fc72896db0d56b1e1dd38404130 t/00-load.t
 SHA1 af89d74757f6f6210d9afa7a22a6ebdcf5bb6f2d t/chunked_source.t
 SHA1 4b88b23584eb7642e62863131276622679d4488a t/data/test1/file1
@@ -39,6 +39,8 @@ SHA1 dba7673010f19a94af4345453005933fd511bea9 t/data/test10/file1
 SHA1 fc570b2810ce8b60a3d31a7d15e36d8e34656015 t/data/test10/file2
 SHA1 396f5be1e1bbc2b366b3e74854fd8bc4e542f693 t/data/test11/file1
 SHA1 fe908f3fb03e63076876c9278fa1289ac8d15ae2 t/data/test11/file2
+SHA1 c948fe0e69e027206dc44779a339752bbf8ffd68 t/data/test12/file1
+SHA1 27e597c3a71105f16657e3515d97361d1009c1b6 t/data/test12/file2
 SHA1 d89c07b7035b4691b5734f1d1147407df2393804 t/data/test2/file1
 SHA1 d89c07b7035b4691b5734f1d1147407df2393804 t/data/test2/file2
 SHA1 c4610601c6098903b7692258cb51caf559e83942 t/data/test3/file1
@@ -55,13 +57,14 @@ SHA1 e3414db6fa5dab9b0b856d1736f39dc220bf9d50 t/data/test8/file1
 SHA1 259aa0fe249003a6a0cf6ed16da36c8a907aaeb7 t/data/test8/file2
 SHA1 fb8dbd287ca32909f509d14e5ea78906027b8569 t/data/test9/file1
 SHA1 fb8dbd287ca32909f509d14e5ea78906027b8569 t/data/test9/file2
-SHA1 c64f927b147760fe62abda1643bb37d7c04f5085 t/match.t
+SHA1 f88825b60ed2bf423896684b30909c47ad0a322a t/match.t
 SHA1 6da39b48ce64b584e4c3274bff96fc76ff484820 t/pod-coverage.t
 SHA1 0190346d7072d458c8a10a45c19f86db641dcc48 t/pod.t
+SHA1 a1354f333f2da1097adfaa465ac1025ecf5668c4 t/textui.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.5 (GNU/Linux)
+Version: GnuPG v1.4.6 (GNU/Linux)
 
-iD8DBQFFKDEanmNgKRvzHEMRAq/BAJ9saioQaY2XrYUfwOAXQgBcH9Vo7wCgxwSi
-dGc5w/GjNBUd7oLL0nP0ZFw=
-=lRFT
+iD8DBQFH0/5JnmNgKRvzHEMRAraBAKCQTPJZGz/jx/5FXS/KFs10qUD6VgCfd+CI
+37XcG1fPQ0YhrUdh7RsIX8E=
+=S1MP
 -----END PGP SIGNATURE-----
